@@ -12,25 +12,36 @@ fpsClock = pygame.time.Clock()
 
 width, height = 900, 600
 screen = pygame.display.set_mode((width, height))
+
 black = (0,0,0)
 white = (255,255,255)
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
-colors=[green,blue]
-color_weights=[90,10]
-f,r=50,50
-points=[[f//2,r//2]]
 
-def add_point(points):
+colors=[green,blue]
+color_weights_land=[199,1]
+color_weights_water=[90,10]
+
+f,r=100,100
+
+points=[[f//2,r//2]]
+point_colors={tuple(i):green for i in points}
+
+
+def add_point(points): #Add an adjacent point to a random existing point
     starting_point = random.choice(points)
     new_point = copy(starting_point)
-    while(new_point in points):
+    while(new_point in points): #we'll avoid adding an already existing point
         starting_point = random.choice(points)
         xy = random.choice([0, 1])
         delta = random.choice([-1, +1])
         new_point = copy(starting_point)
-        new_point[xy] += delta
+        new_point[xy] += delta #xy and delta let us decide whether we add the new point up, down, left or right
+    if point_colors[tuple(starting_point)]==green:
+        point_colors[tuple(new_point)]=random.choices(colors,weights=color_weights_land,k=1)
+    else:
+        point_colors[tuple(new_point)] = random.choices(colors, weights=color_weights_water, k=1)
     points.append(new_point)
     return points
 
@@ -39,8 +50,7 @@ def drawing(files,rows,points):
     print(points)
     w,h=width//files,height//rows
     for p in points:
-        col=random.choices(colors,weights=color_weights,k=1)
-        pygame.draw.rect(screen, col[0], pygame.Rect(p[0] * w, p[1] * h, w, h))
+        pygame.draw.rect(screen,point_colors[tuple(p)][0], pygame.Rect(p[0] * w, p[1] * h, w, h))
 
 
 
