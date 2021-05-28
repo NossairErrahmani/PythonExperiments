@@ -20,8 +20,8 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 colors=[green,blue]
-color_weights_land=[199,1]
-color_weights_water=[90,10]
+color_weights_land=[97,3]
+color_weights_water=[25,75]
 
 f,r=100,100
 
@@ -39,9 +39,9 @@ def add_point(points): #Add an adjacent point to a random existing point
         new_point = copy(starting_point)
         new_point[xy] += delta #xy and delta let us decide whether we add the new point up, down, left or right
     if point_colors[tuple(starting_point)]==green:
-        point_colors[tuple(new_point)]=random.choices(colors,weights=color_weights_land,k=1)
+        point_colors[tuple(new_point)]=random.choices(colors,weights=color_weights_land,k=1)[0]
     else:
-        point_colors[tuple(new_point)] = random.choices(colors, weights=color_weights_water, k=1)
+        point_colors[tuple(new_point)] = random.choices(colors, weights=color_weights_water, k=1)[0]
     points.append(new_point)
     return points
 
@@ -50,13 +50,13 @@ def drawing(files,rows,points):
     print(points)
     w,h=width//files,height//rows
     for p in points:
-        pygame.draw.rect(screen,point_colors[tuple(p)][0], pygame.Rect(p[0] * w, p[1] * h, w, h))
+        pygame.draw.rect(screen,point_colors[tuple(p)], pygame.Rect(p[0] * w, p[1] * h, w, h))
 
 
 
 # Game loop.
 while True:
-    screen.fill(black)
+    screen.fill(white)
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit()
