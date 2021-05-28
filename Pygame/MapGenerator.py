@@ -5,9 +5,10 @@ from pygame.locals import *
 import random
 from copy import copy
 
+
 pygame.init()
 
-fps =60
+fps =240
 fpsClock = pygame.time.Clock()
 
 width, height = 900, 600
@@ -53,7 +54,7 @@ def drawing(files,rows,points):
         pygame.draw.rect(screen,point_colors[tuple(p)], pygame.Rect(p[0] * w, p[1] * h, w, h))
 
 
-
+frame = 0
 # Game loop.
 while True:
     screen.fill(white)
@@ -64,7 +65,11 @@ while True:
     # Update.
 
     drawing(f,r,points)
-
+    frame+=1
+    if frame == 1000 :
+        pygame.image.save(screen,'map.jpg')
+        sys.exit()
+        pygame.quit()
     pygame.display.flip()
     fpsClock.tick(fps)
 
