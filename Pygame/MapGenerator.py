@@ -21,8 +21,9 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 colors=[green,blue]
-color_weights_land=[97,3]
-color_weights_water=[25,75]
+#199 1 and 10 90 for lakes, 99 1 and 15 85 for smaller ones/rivers
+color_weights_land=[99,1]
+color_weights_water=[15,85]
 
 f,r=100,100
 
@@ -66,7 +67,7 @@ while True:
 
     drawing(f,r,points)
     frame+=1
-    if frame == 1000 :
+    if frame == 10000 :
         pygame.image.save(screen,'map.jpg')
         sys.exit()
         pygame.quit()
